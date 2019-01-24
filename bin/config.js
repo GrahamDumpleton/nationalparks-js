@@ -15,6 +15,8 @@ var autoconfig  = function (config_overrides){
     db_svc_name: process.env.DATABASE_SERVICE_NAME || "mongodb"
   })
 
+  console.log('CONFIG', config);
+
   var ws_info = {
     id: "nationalparks-js",
     displayName: "National Parks (JS)",
@@ -36,6 +38,8 @@ var autoconfig  = function (config_overrides){
   }
 
   table     = config.get('table_name');
+
+  console.log('DB_CONFIG', db_config+table);
 
   config.add({db_config: db_config+table});
   config.add({wsinfo: JSON.stringify(ws_info)});
