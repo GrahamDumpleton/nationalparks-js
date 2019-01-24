@@ -47,6 +47,12 @@ function init_db(persist_db_connection){
   });
 }
 
+function init_db_handler(req, res, next){
+  var result = init_db(true);
+  res.send(result);
+  return result;
+}
+
 function flush_db(persist_db_connection){
   console.log("Dropping the DB...");
   db[collection].drop(function(err){
@@ -112,5 +118,5 @@ module.exports = exports = {
   selectAll: select_all,
   selectBox: select_box,
   flushDB:   flush_db,
-  initDB:    init_db
+  initDB:    init_db_handler
 };
