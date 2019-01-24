@@ -1,10 +1,12 @@
+var url = require('url');
 var multipaas   = require('config-multipaas');
+
 var autoconfig  = function (config_overrides){
   var config    = multipaas(config_overrides).add({
-    uri: process.env.uri || process.env.DB_USERNAME || 'mongodb',
-    username: process.env.MONGODB_USER || process.env.DB_USERNAME || 'mongodb',
-    password: process.env.MONGODB_PASSWORD || process.env.DB_PASSWORD || 'mongodb',
-    table_name: process.env.MONGODB_DATABASE || process.env.DB_NAME || 'mongodb',
+    uri: process.env.uri;
+    username: process.env.username || rocess.env.MONGODB_USER || process.env.DB_USERNAME || 'mongodb',
+    password: process.env.password || process.env.MONGODB_PASSWORD || process.env.DB_PASSWORD || 'mongodb',
+    table_name: process.env.database_name || process.env.MONGODB_DATABASE || process.env.DB_NAME || 'mongodb',
     collection_name: process.env.MONGODB_DATABASE || process.env.DB_NAME || 'mongodb',
     db_autoload: process.env.DB_AUTOLOAD || "false",
     db_host: process.env.DB_HOST || "mongodb-nationalparks",
@@ -22,8 +24,18 @@ var autoconfig  = function (config_overrides){
   };
 
   var creds = config.get('username')+':'+config.get('password')+'@';
-  var db_config = config.get('db_proto')+'://'+creds+config.get('db_host')+":"+config.get('db_port')+"/";
-      table     = config.get('table_name');
+
+  var db_config = undefined;
+
+  if (config.uri) {
+    db_uri = url.parse(config.uri);
+    db_config = db_uri.protocol+'://'+creds+db_uri.hostname+":"+db_uri.port+"/";
+  }
+  else {
+    db_config = config.get('db_proto')+'://'+creds+config.get('db_host')+":"+config.get('db_port')+"/";
+  }
+
+  table     = config.get('table_name');
 
   config.add({db_config: db_config+table});
   config.add({wsinfo: JSON.stringify(ws_info)});
