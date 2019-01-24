@@ -30,7 +30,8 @@ var autoconfig  = function (config_overrides){
   var db_config = undefined;
 
   if (config.get('uri')) {
-    db_uri = url.parse(config.get('uri'));
+    var db_uri = url.parse(config.get('uri'));
+    console.log('DB_URI', db_uri);
     db_config = db_uri.protocol+'://'+creds+db_uri.hostname+":"+db_uri.port+"/";
   }
   else {
