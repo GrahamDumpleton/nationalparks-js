@@ -4,7 +4,7 @@ var multipaas   = require('config-multipaas');
 var autoconfig  = function (config_overrides){
   var config    = multipaas(config_overrides).add({
     uri: process.env.uri,
-    username: process.env.username || rocess.env.MONGODB_USER || process.env.DB_USERNAME || 'mongodb',
+    username: process.env.username || process.env.MONGODB_USER || process.env.DB_USERNAME || 'mongodb',
     password: process.env.password || process.env.MONGODB_PASSWORD || process.env.DB_PASSWORD || 'mongodb',
     table_name: process.env.database_name || process.env.MONGODB_DATABASE || process.env.DB_NAME || 'mongodb',
     collection_name: process.env.database_name || process.env.MONGODB_DATABASE || process.env.DB_NAME || 'mongodb',
